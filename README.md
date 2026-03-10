@@ -1,89 +1,196 @@
 # Payment Approval Optimization Simulator
 
-A portfolio-grade fintech simulation that demonstrates the trade-off between approval rate and fraud exposure. The product is designed for internship or product case study reviews, showing how changes in risk posture affect revenue, cost, and net profit.
+A portfolio-grade **fintech simulation dashboard** that models the trade-off between **approval rate, fraud exposure, and risk-adjusted profitability** in card payments.
 
-## Product intent
+The simulator demonstrates how changes in **risk posture** affect:
 
-- Educate on the principle: higher approval rate is not always better
-- Make trade-offs visible through KPIs, comparisons, and charts
-- Provide a decision-oriented recommendation rooted in net profit
+- approval rate
+- fraud losses
+- payment volume
+- net profit
 
-## Features
+Built as a **product-oriented learning project** exploring payment infrastructure and risk decisioning.
 
-- Merchant input panel with realistic defaults and presets
-- Strict / Balanced / Aggressive strategies plus custom tuning
-- KPI dashboard for volume, fraud loss, fees, and profitability
-- Baseline vs strategy comparison view
-- Recharts visualizations for profit and rate sensitivity
-- Insight engine and recommendation logic based on net profit
-- Clear simulation assumptions and disclaimers
+---
 
-## Strategy presets
+# Product Intent
 
-- **Strict**: lower approvals, lower fraud
-- **Balanced**: modest approval lift, contained fraud
-- **Aggressive**: higher approvals, higher fraud exposure
+The simulator illustrates a core principle in payment systems:
 
-## Merchant presets
+> Increasing approval rate does not always improve profitability.
 
-- Subscription SaaS (Low Risk)
-- Marketplace Retail (Mid Risk)
-- Digital Goods & Gaming (High Risk)
+A small increase in conversion may appear positive, but when **fraud losses, refunds, and operational costs** are included, the outcome can change significantly.
 
-## Core formulas
+This tool makes those trade-offs visible through:
 
-All rates are stored as percentages and converted to decimals for math.
+- KPI dashboards  
+- strategy comparisons  
+- profit sensitivity charts  
+- automated insights and recommendations  
 
-- `attemptedVolume = transactionCount * averageTicket`
-- `approvedTransactions = transactionCount * approvalRate`
-- `declinedTransactions = transactionCount - approvedTransactions`
-- `recoveredTransactions = declinedTransactions * recoveryRate`
-- `approvedVolume = approvedTransactions * averageTicket`
-- `fraudulentTransactions = approvedTransactions * fraudRate`
-- `fraudLoss = fraudulentTransactions * averageTicket`
-- `chargebackOperationalCost = fraudulentTransactions * chargebackCost`
-- `processingCost = approvedVolume * processingFeeRate`
-- `refundLoss = approvedVolume * refundRate`
-- `merchantRevenue = approvedVolume * merchantMarginRate`
-- `netRevenueBeforeFraud = merchantRevenue - processingCost - refundLoss`
-- `netProfit = netRevenueBeforeFraud - fraudLoss - chargebackOperationalCost`
+---
 
-## Recommendation logic (high level)
+# Key Features
 
-- Picks the highest net profit among preset strategies
-- Flags when outcomes are clustered and suggests custom tuning
-- Escalates to custom tuning when profit margins are thin or fraud is elevated
+### Merchant Simulation Inputs
 
-## Assumptions
+- Transaction volume  
+- Average order value (AOV)  
+- Baseline approval rate  
+- Fraud rate (on approved transactions)  
+- Decline recovery rate  
+- Processing fee rate  
+- Chargeback operational cost  
+- Merchant margin  
 
-- This is a simulation and not a real payment system.
-- Metrics are illustrative and directional only.
-- Real performance depends on issuer behavior, scheme rules, MCC, geography, fraud mix, and risk engine quality.
-- Fraud rates for preset strategies are capped at 10% for realism (custom strategies can exceed this).
+### Risk Posture Strategies
 
-## Tech stack
+- **Strict** → lower approval, lower fraud exposure  
+- **Balanced** → moderate approval lift with controlled fraud  
+- **Aggressive** → higher approval with higher fraud exposure  
+- **Custom tuning** → manual adjustment of risk parameters  
 
-- Next.js 14+ (App Router)
-- TypeScript
-- Tailwind CSS
-- Recharts
-- shadcn/ui-style components
+### Decision Analytics
 
-## Run locally
+- KPI dashboard for payment volume and profitability  
+- Baseline vs strategy comparison table  
+- Approval vs fraud trade-off chart  
+- Profit sensitivity visualization  
+- Insight engine highlighting risk and conversion trade-offs  
+- Recommendation engine based on **risk-adjusted profitability**
 
-```bash
+---
+
+# Merchant Presets
+
+The simulator includes example merchant profiles reflecting different risk environments.
+
+| Merchant Type | Risk Profile |
+|---|---|
+| Subscription SaaS | Low fraud environment |
+| Marketplace Retail | Medium fraud exposure |
+| Digital Goods & Gaming | High fraud exposure |
+
+These presets demonstrate how **payment economics vary across business models**.
+
+---
+
+# Core Model
+
+All rates are stored as percentages and converted to decimals during calculations.
+
+```
+attemptedVolume = transactionCount * averageTicket
+approvedTransactions = transactionCount * approvalRate
+declinedTransactions = transactionCount - approvedTransactions
+
+recoveredTransactions = declinedTransactions * recoveryRate
+
+approvedVolume = approvedTransactions * averageTicket
+
+fraudulentTransactions = approvedTransactions * fraudRate
+fraudLoss = fraudulentTransactions * averageTicket
+
+chargebackOperationalCost = fraudulentTransactions * chargebackCost
+
+processingCost = approvedVolume * processingFeeRate
+refundLoss = approvedVolume * refundRate
+
+merchantRevenue = approvedVolume * merchantMarginRate
+
+netRevenueBeforeFraud = merchantRevenue - processingCost - refundLoss
+netProfit = netRevenueBeforeFraud - fraudLoss - chargebackOperationalCost
+```
+
+---
+
+# Recommendation Logic
+
+The simulator evaluates strategies based on **net profit**, not simply approval rate.
+
+Decision logic includes:
+
+- Selecting the strategy with the highest net profit  
+- Detecting clustered outcomes across strategies  
+- Suggesting custom tuning when margins are thin  
+- Highlighting cases where higher approval harms profitability  
+
+---
+
+# Assumptions
+
+This simulator is designed for **educational and portfolio purposes**.
+
+Important limitations:
+
+- This is **not a real payment system**  
+- Metrics are **illustrative and directional only**
+
+Real payment performance depends on:
+
+- issuer behavior  
+- card network rules (scheme rules)  
+- merchant category code (MCC)  
+- geography  
+- fraud mix  
+- risk engine quality  
+
+Preset fraud rates are capped at **10% for realism**.
+
+---
+
+# Tech Stack
+
+- **Next.js 14** (App Router)  
+- **TypeScript**  
+- **Tailwind CSS**  
+- **Recharts**  
+- **shadcn-style UI components**
+
+---
+
+# Run Locally
+
+Install dependencies:
+
+```
 npm install
+```
+
+Start the development server:
+
+```
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open the app:
 
-## Possible future improvements
+```
+http://localhost:3000
+```
 
-- Scenario export and sharing
-- Strategy optimization grid search
-- Support for issuer mix, MCC, and geo segments
-- Monte Carlo simulations for fraud variance
-- Persistence with a lightweight database
+---
 
-Built as a fintech simulation project for portfolio use.
+# Possible Future Improvements
+
+- Scenario export and sharing  
+- Strategy optimization grid search  
+- Support for issuer mix and MCC segmentation  
+- Geographic fraud risk modeling  
+- Monte Carlo simulations for fraud variance  
+- Data persistence using a lightweight database  
+
+---
+
+# Portfolio Context
+
+This project was built as a **fintech product exploration** focused on:
+
+- payment infrastructure  
+- fraud vs conversion trade-offs  
+- risk-adjusted profitability  
+- decision-oriented dashboards  
+
+---
+
+Built as a **fintech simulation project for portfolio use.**
