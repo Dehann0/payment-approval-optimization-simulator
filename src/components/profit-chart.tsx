@@ -136,10 +136,10 @@ export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: 
                   tick={{ fontSize: 12 }}
                 />
                 <Tooltip
-                  formatter={(value, name: string) =>
+                  formatter={(value, name) =>
                     name === "approvalRate"
                       ? [safePercent(value), "Approval rate (%)"]
-                      : [safePercent(value), "Fraud rate on approved (%)"]
+                      : [safePercent(value), "Fraud rate (% of approved)"]
                   }
                   labelFormatter={(label) => `Scenario: ${label}`}
                   contentStyle={{ borderRadius: 8, borderColor: "#e2e8f0" }}
@@ -201,7 +201,7 @@ export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: 
                   label={{ value: "Fraud rate (%)", angle: 90, position: "insideRight" }}
                 />
                 <Tooltip
-                  formatter={(value, name: string) =>
+                  formatter={(value, name) =>
                     name === "netProfit" ? safeCurrency(value) : safePercent(value)
                   }
                   contentStyle={{ borderRadius: 8, borderColor: "#e2e8f0" }}
