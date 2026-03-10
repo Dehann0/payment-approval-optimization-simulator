@@ -1,4 +1,10 @@
 # Payment Approval Optimization Simulator
+## Live Demo
+
+🌐 **Interactive Demo:**  
+https://payment-approval-optimization-simul.vercel.app/
+
+---
 
 A portfolio-grade **fintech simulation dashboard** that models the trade-off between **approval rate, fraud exposure, and risk-adjusted profitability** in card payments.
 
