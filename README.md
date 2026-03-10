@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Payment Approval Optimization Simulator
 
-## Getting Started
+A portfolio-grade fintech simulation that demonstrates the trade-off between approval rate and fraud exposure. The product is designed for internship or product case study reviews, showing how changes in risk posture affect revenue, cost, and net profit.
 
-First, run the development server:
+## Product intent
+
+- Educate on the principle: higher approval rate is not always better
+- Make trade-offs visible through KPIs, comparisons, and charts
+- Provide a decision-oriented recommendation rooted in net profit
+
+## Features
+
+- Merchant input panel with realistic defaults and presets
+- Strict / Balanced / Aggressive strategies plus custom tuning
+- KPI dashboard for volume, fraud loss, fees, and profitability
+- Baseline vs strategy comparison view
+- Recharts visualizations for profit and rate sensitivity
+- Insight engine and recommendation logic based on net profit
+- Clear simulation assumptions and disclaimers
+
+## Strategy presets
+
+- **Strict**: lower approvals, lower fraud
+- **Balanced**: modest approval lift, contained fraud
+- **Aggressive**: higher approvals, higher fraud exposure
+
+## Merchant presets
+
+- Subscription SaaS (Low Risk)
+- Marketplace Retail (Mid Risk)
+- Digital Goods & Gaming (High Risk)
+
+## Core formulas
+
+All rates are stored as percentages and converted to decimals for math.
+
+- `attemptedVolume = transactionCount * averageTicket`
+- `approvedTransactions = transactionCount * approvalRate`
+- `declinedTransactions = transactionCount - approvedTransactions`
+- `recoveredTransactions = declinedTransactions * recoveryRate`
+- `approvedVolume = approvedTransactions * averageTicket`
+- `fraudulentTransactions = approvedTransactions * fraudRate`
+- `fraudLoss = fraudulentTransactions * averageTicket`
+- `chargebackOperationalCost = fraudulentTransactions * chargebackCost`
+- `processingCost = approvedVolume * processingFeeRate`
+- `refundLoss = approvedVolume * refundRate`
+- `merchantRevenue = approvedVolume * merchantMarginRate`
+- `netRevenueBeforeFraud = merchantRevenue - processingCost - refundLoss`
+- `netProfit = netRevenueBeforeFraud - fraudLoss - chargebackOperationalCost`
+
+## Recommendation logic (high level)
+
+- Picks the highest net profit among preset strategies
+- Flags when outcomes are clustered and suggests custom tuning
+- Escalates to custom tuning when profit margins are thin or fraud is elevated
+
+## Assumptions
+
+- This is a simulation and not a real payment system.
+- Metrics are illustrative and directional only.
+- Real performance depends on issuer behavior, scheme rules, MCC, geography, fraud mix, and risk engine quality.
+- Fraud rates for preset strategies are capped at 10% for realism (custom strategies can exceed this).
+
+## Tech stack
+
+- Next.js 14+ (App Router)
+- TypeScript
+- Tailwind CSS
+- Recharts
+- shadcn/ui-style components
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Possible future improvements
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Scenario export and sharing
+- Strategy optimization grid search
+- Support for issuer mix, MCC, and geo segments
+- Monte Carlo simulations for fraud variance
+- Persistence with a lightweight database
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built as a fintech simulation project for portfolio use.
