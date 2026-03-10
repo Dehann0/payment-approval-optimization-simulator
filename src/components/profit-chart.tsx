@@ -13,6 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { SimulationResult, SensitivityPoint } from "@/types/simulation";
 import { formatCurrency, formatPercent } from "@/lib/formatters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +26,20 @@ interface ProfitChartProps {
 }
 
 export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: ProfitChartProps) {
+  const safeCurrency = (value: ValueType) => {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return formatCurrency(value);
+    }
+    return String(value ?? "");
+  };
+
+  const safePercent = (value: ValueType) => {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return formatPercent(value);
+    }
+    return String(value ?? "");
+  };
+
   const profitData = [
     { name: "Baseline", netProfit: baseline.netProfit },
     { name: selectedLabel, netProfit: selected.netProfit },
@@ -62,7 +77,7 @@ export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: 
                   tick={{ fontSize: 12 }}
                 />
                 <Tooltip
-                  formatter={(value: number) => formatCurrency(value)}
+                  formatter={(value: ValueType) => safeCurrency(value)}
                   labelFormatter={(label) => `Scenario: ${label}`}
                   contentStyle={{ borderRadius: 8, borderColor: "#e2e8f0" }}
                 />
@@ -110,10 +125,10 @@ export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: 
                   tick={{ fontSize: 12 }}
                 />
                 <Tooltip
-                  formatter={(value: number, name: string) =>
+                  formatter={(value: ValueType, name: string) =>
                     name === "approvalRate"
-                      ? [formatPercent(value), "Approval rate (%)"]
-                      : [formatPercent(value), "Fraud rate on approved (%)"]
+                      ? [safePercent(value), "Approval rate (%)"]
+                      : [safePercent(value), "Fraud rate on approved (%)"]
                   }
                   labelFormatter={(label) => `Scenario: ${label}`}
                   contentStyle={{ borderRadius: 8, borderColor: "#e2e8f0" }}
@@ -175,8 +190,8 @@ export function ProfitChart({ baseline, selected, selectedLabel, sensitivity }: 
                   label={{ value: "Fraud rate (%)", angle: 90, position: "insideRight" }}
                 />
                 <Tooltip
-                  formatter={(value: number, name: string) =>
-                    name === "netProfit" ? formatCurrency(value) : formatPercent(value)
+                  formatter={(value: ValueType, name: string) =>
+                    name === "netProfit" ? safeCurrency(value) : safePercent(value)
                   }
                   contentStyle={{ borderRadius: 8, borderColor: "#e2e8f0" }}
                 />
