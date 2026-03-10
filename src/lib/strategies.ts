@@ -29,7 +29,9 @@ export const STRATEGIES: StrategyConfig[] = [
 
 export const STRATEGY_MAP = STRATEGIES.reduce(
   (acc, strategy) => {
-    acc[strategy.key] = strategy;
+    if (strategy.key !== "baseline") {
+      acc[strategy.key] = strategy;
+    }
     return acc;
   },
   {} as Record<StrategyKey, StrategyConfig>
