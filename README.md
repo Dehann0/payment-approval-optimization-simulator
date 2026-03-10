@@ -12,6 +12,18 @@ The simulator demonstrates how changes in **risk posture** affect:
 Built as a **product-oriented learning project** exploring payment infrastructure and risk decisioning.
 
 ---
+## Product Preview
+
+### Merchant Profiles
+![Merchant Profiles](screenshots/Ekran%20görüntüsü%202026-03-10%20153303.png)
+
+### KPI Dashboard
+![KPI Dashboard](screenshots/Ekran%20görüntüsü%202026-03-10%20153348.png)
+
+### Strategy Comparison
+![Strategy Comparison](screenshots/Ekran%20görüntüsü%202026-03-10%20153357.png)
+
+---
 
 # Product Intent
 
